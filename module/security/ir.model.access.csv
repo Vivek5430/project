@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_car_details,access_car_details,model_car_details,,1,1,1,1
+access_customer_details,access_customer_details,model_customer_details,,1,1,1,1
+access_driver_details,access_driver_details,model_driver_details,,1,1,1,1
+access_invoice_wizard,access_invoice_wizard,model_invoice_wizard,,1,1,1,1
+access_car_maintenance,access_car_maintenance,model_car_maintenance,,1,1,1,1
+access_maintenance_wizard,access_maintenance_wizard,model_maintenance_wizard,,1,1,1,1
+access_bike_details,access_bike_details,model_bike_details,,1,1,1,1
+access_bike_maintenancewiz,access_bike_maintenancewiz,model_bike_maintenancewiz,,1,1,1,1
+
+
+
+
+

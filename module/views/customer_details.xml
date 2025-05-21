@@ -1,0 +1,201 @@
+<odoo>
+        <record id="view_customer_kanban" model="ir.ui.view">
+            <field name="name">customer.kanban</field>
+            <field name="model">customer.details</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_dashboard" default_group_by="language">
+                    <field name="name"/>
+                    <field name="image"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="language"/>
+                    <field name="vehicle_available"/>
+
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record bg-white rounded shadow-sm">
+                                <!-- Header with image and name -->
+                                <div class="d-flex align-items-center p-3 border-bottom">
+                                    <div class="mr-3">
+                                        <field name="image" widget="image" class="oe_kanban_image rounded-circle" 
+                                            options="{'zoom': true, 'zoom_delay': 1000}" 
+                                            width="64" height="64"/>
+                                    </div>
+                                    <div>
+                                        <h4 class="mb-0 text-primary">
+                                            <strong><field name="name"/></strong>
+                                        </h4>
+                                        <small class="text-muted">
+                                            <field name="language" widget="badge" class="badge badge-info"/>
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <!-- Main content -->
+                                <div class="p-3">
+                                    <div class="d-flex mb-2">
+                                        <div class="mr-3 text-muted">
+                                            <i class="fa fa-phone"></i>
+                                        </div>
+                                        <div>
+                                            <field name="phone"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex mb-2">
+                                        <div class="mr-3 text-muted">
+                                            <i class="fa fa-envelope"></i>
+                                        </div>
+                                        <div>
+                                            <field name="email" widget="email"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex">
+                                        <div class="mr-3 text-muted">
+                                            <i class="fa fa-car"></i>
+                                        </div>
+                                        <div>
+                                            <span t-if="record.vehicle_available.raw_value">
+                                                <field name="vehicle_available" widget="badge" class="badge badge-success"/>
+                                            </span>
+                                            <span t-else="" class="badge badge-secondary">No vehicle</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Footer -->
+                                <div class="p-2 bg-light rounded-bottom text-right">
+                                    <button class="btn btn-sm btn-link text-primary">
+                                        <i class="fa fa-eye"></i> View Details
+                                    </button>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <record id="customer_view_form" model="ir.ui.view">
+            <field name="name">customer_view_form</field>
+            <field name="model">customer.details</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <!-- Header Section with Avatar and Name -->
+                        <div class="oe_title bg-primary-light p-4 rounded-top">
+                            <div class="oe_avatar oe_left mr-4">
+                                <field name="image" widget="image" class="oe_avatar" 
+                                    options="{'zoom': true, 'zoom_delay': 1000}"
+                                    width="120" height="120"/>
+                            </div>
+                            <div>
+                                <h1 class="mb-2">
+                                    <field name="name" placeholder="Customer Name" class="font-weight-bold"/>
+                                </h1>
+                                <div>
+                                    <field name="rental_status" widget="selection_badge" class="badge-lg"/>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!-- Main Form Content -->
+                        <div class="oe_form_sheetbg p-4">
+                            <group>
+                                <!-- Contact Information -->
+                                <group string="Contact Information" class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-4 o_form_label">Phone</div>
+                                        <div class="col-8">
+                                            <field name="phone" widget="phone" class="mb-3" placeholder="+1 (123) 456-7890"/>
+                                        </div>
+                                        <div class="col-4 o_form_label">Email</div>
+                                        <div class="col-8">
+                                            <field name="email" widget="email" class="mb-3" placeholder="customer@example.com"/>
+                                        </div>
+                                        <div class="col-4 o_form_label">Language</div>
+                                        <div class="col-8">
+                                            <field name="language" widget="selection_badge" class="mb-3"/>
+                                        </div>
+                                    </div>
+                                </group>
+        
+                                <!-- Rental Information -->
+                                <group string="Rental Information" class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-4 o_form_label">Dates</div>
+                                        <div class="col-8">
+                                            <div class="row mb-3">
+                                                <div class="col-6">
+                                                    <field name="start_date" widget="date" placeholder="Start Date"/>
+                                                </div>
+                                                <div class="col-6">
+                                                    <field name="end_date" widget="date" placeholder="End Date"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 o_form_label">Vehicle</div>
+                                        <div class="col-8">
+                                            <field name="vehicle_available" class="mb-3"/>
+                                        </div>
+                                    </div>
+                                </group>
+        
+                                <!-- Address Section -->
+                                <group string="Address" class="col-12 mt-4">
+                                    <div class="row">
+                                        <div class="col-2 o_form_label">Street</div>
+                                        <div class="col-10">
+                                            <field name="street" class="mb-2" placeholder="Street"/>
+                                        </div>
+                                        <div class="col-2 o_form_label">Street 2</div>
+                                        <div class="col-10">
+                                            <field name="street2" class="mb-2" placeholder="Street 2"/>
+                                        </div>
+                                        <div class="col-2 o_form_label">City</div>
+                                        <div class="col-10">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <field name="city" placeholder="City"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </group>
+        
+                                <!-- Other Details -->
+                                <group string="Identification" class="col-md-6 mt-4">
+                                    <div class="row">
+                                        <div class="col-4 o_form_label">License</div>
+                                        <div class="col-8">
+                                            <field name="driving_license" class="mb-3" placeholder="DL Number"/>
+                                        </div>
+                                        <div class="col-4 o_form_label">Gender</div>
+                                        <div class="col-8">
+                                            <field name="gender" widget="radio" class="mb-3"/>
+                                        </div>
+                                    </div>
+                                </group>
+                            </group>
+
+                            <notebook>
+                                <page string="Payment Registration">
+                                    <field name="bills_id" invisible="1"/>
+                                    <button string="Payment Details" type="object" name="action_open_invoice_wizard" 
+                                        class="btn-primary" icon="fa-money"/>
+                                </page>
+                        
+                            </notebook>
+                            
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <menuitem id = "bills_details_model_menu" name = "Customer Details" sequence = "1"/>
+
+
+</odoo>

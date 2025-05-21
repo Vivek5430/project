@@ -1,0 +1,161 @@
+<odoo>
+
+    <!-- Kanban View -->
+    <record id="bills_view_kanban" model="ir.ui.view">
+        <field name="name">bills.view.kanban</field>
+        <field name="model">bills.details</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="status" class="o_kanban_view o_kanban_card">
+                <field name="sequence_number"/>
+                <field name="total_amount"/>
+                <field name="status"/>
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_card shadow-lg rounded p-3 bg-white">
+
+                            <!-- Ribbon for Paid Status -->
+                            <t t-if="record.status.raw_value == 'paid'">
+                                <div class="o_ribbon o_ribbon_success">PAID</div>
+                            </t>
+                            <t t-if="record.status.raw_value == 'pending'">
+                                <div class="o_ribbon o_ribbon_warning">PENDING</div>
+                            </t>
+                           
+                            <!-- Header with sequence number -->
+                            <div class="o_kanban_record_top text-center">
+                                <strong class="text-primary fs-5">
+                                    <field name="sequence_number" widget="badge"/>
+                                </strong>
+                            </div>
+
+                            <!-- Customer Info -->
+                            <div class="o_kanban_record_body">
+                                <div class="text-center">
+                                    <!-- <field name="customer_bill_id" /> -->
+                                    <div class="mt-2 text-muted">
+                                        <field name="bill_date" widget="date"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Footer with amount and status -->
+                            <div class="o_kanban_record_bottom d-flex justify-content-between mt-3">
+                                <div class="fw-bold text-success fs-5">
+                                    <field name="total_amount" widget="monetary"/>
+                                </div>
+                                <div class="text-end">
+                                    <field name="status" widget="badge"/>
+                                </div>
+                            </div>
+
+                        </div>
+                    </t>
+                </templates>
+
+            </kanban>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="bills_view_list" model="ir.ui.view">
+        <field name="name">bills.view.list</field>
+        <field name="model">bills.details</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="status=='pending'" decoration-success="status=='paid'" decoration-danger="status=='overdue'">
+                <field name="sequence_number" string="Invoice No."/>
+                <field name="bill_date" widget="date"/>
+                <field name="payment_type"/>
+                <field name="status" widget="badge"/>
+                <field name="total_amount" widget="monetary"/>
+            </list>
+        </field>
+    </record>
+
+
+
+
+    <record id="bills_view_form" model="ir.ui.view">
+        <field name="name">bills.view.form</field>
+        <field name="model">bills.details</field>
+        <field name="arch" type="xml">
+            <form string="Customer Invoice" class="o_form_sheet_bg">
+                <header>
+                    <field name="status" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+    
+                <sheet>
+                    <!-- Title -->
+                    <div class="oe_title">
+                        <h1 class="text-primary fw-bold">
+                            <field name="sequence_number" readonly="1" class="oe_inline"/>
+                        </h1>
+                    </div>
+    
+                    <!-- Section: Customer and Billing Info -->
+                    <group col="4">
+                        <group string="Customer Information" col="2">
+                            <!-- <field name="customer_bill_id" /> -->
+                            <field name = "vehicle_available"/>
+                            <field name="bill_date" widget="date"/>
+                            <field name="payment_type"/>
+                            <field name="payment_terms"/>
+                        </group>
+                        <group string="Billing Adderess" col="2">
+                            <field name = "street"/>
+                            <field name = "street2"/>
+                            <field name = "city"/>                        
+                        </group>
+                        <!-- <group>
+                            <field name="customer_id"/>
+                            <field name="vehical_available" widget="many2one_avatar" class="mb-3"/>
+                            <field name="driver_id"/>
+                        </group> -->
+                    </group>
+    
+                    <!-- Notebook Section -->
+                    <notebook>
+                        <page string="💳 Payment Details">
+                            <group col="2" string="Payment Breakdown" class="p-2 bg-light rounded shadow-sm">
+                                <field name="bill_pay" class="text-primary"/>
+                                <field name="add_tax" class="text-primary"/>
+                            </group>
+
+                            <separator string="Total" colspan="2"/>
+
+                            <div class="d-flex justify-content-end mt-3 me-3">
+                                <div class="border border-success bg-white rounded p-3 shadow-sm">
+                                    <span class="o_form_label fw-bold text-muted me-2">Total Amount:</span>
+                                    <field name="total_amount" widget="monetary" class="text-success fw-bold fs-5"/>
+                                </div>
+                            </div>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Action -->
+    <record id="bills_details_action" model="ir.actions.act_window">
+        <field name="name">Bills Details</field>
+        <field name="res_model">bills.details</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="view_id" ref="bills_view_kanban"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Click <b>Create</b> to add a new bill.
+            </p>
+        </field>
+        <field name="context">{'search_default_group_by_status': 1}</field>
+    </record>
+
+    <!-- Menu -->
+    
+    <menuitem id = "bills_details_model_menu" name = "Bills" parent = "admin_menu_root" sequence = "40"/>
+
+</odoo>
+
+

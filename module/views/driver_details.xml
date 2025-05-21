@@ -1,0 +1,127 @@
+<odoo>
+        <record id="view_driver_details_kanban" model="ir.ui.view">
+            <field name="name">driver_details.kanban</field>
+            <field name="model">driver.details</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="image"/>
+                    <field name="email"/>
+                    <field name="phone"/>
+                    <field name="gender"/>
+                    <field name="country"/>
+                        <templates>
+                            <t t-name="kanban-box">
+                                <div class="oe_kanban_global_click o_kanban_record bg-white rounded shadow-sm">
+
+                                    <!-- Header: Image and Name -->
+                                    <div class="d-flex align-items-center p-3 border-bottom">
+                                        <div class="mr-3">
+                                            <field name="image" widget="image" class="oe_kanban_image rounded-circle"
+                                                options="{'zoom': true, 'zoom_delay': 1000}"
+                                                width="64px" height="64px"/>
+                                        </div>
+                                        <div>
+                                            <h4 class="mb-0 text-primary">
+                                                <strong><field name="name"/></strong>
+                                            </h4>
+                                        </div>
+                                    </div>
+
+                                    <!-- Main Content: Contact & Info -->
+                                    <div class="p-3">
+                                        <div class="d-flex mb-2">
+                                            <div class="mr-3 text-muted">
+                                                <i class="fa fa-phone"></i>
+                                            </div>
+                                            <div>
+                                                <field name="phone" widget="badge"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex mb-2">
+                                            <div class="mr-3 text-muted">
+                                                <i class="fa fa-envelope"></i>
+                                            </div>
+                                            <div>
+                                                <field name="email"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex mb-2">
+                                            <div class="mr-3 text-muted">
+                                                <i class="fa fa-venus-mars"></i>
+                                            </div>
+                                            <div>
+                                                <field name="gender" widget="badge"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex">
+                                            <div class="mr-3 text-muted">
+                                                <i class="fa fa-flag"></i>
+                                            </div>
+                                            <div>
+                                                <field name="country" widget="badge"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Footer: View Button -->
+                                    <div class="p-2 bg-light rounded-bottom text-right">
+                                        <button class="btn btn-sm btn-link text-primary">
+                                            <i class="fa fa-eye"></i> View Details
+                                        </button>
+                                    </div>
+                                </div>
+                            </t>
+                        </templates>
+
+                </kanban>
+            </field>
+        </record>
+
+
+
+        <record id="driver_view_form" model="ir.ui.view">
+            <field name="name">driver_details.form</field>
+            <field name="model">driver.details</field>
+            <field name="arch" type="xml">
+                <form string="Driver Profile">
+                    <sheet>
+                        <div class="oe_title">
+                            <div class="oe_avatar oe_left">
+                                <field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image'}"/>
+                            </div>
+                            <h1>
+                                <field name="name" placeholder="Driver Name"/>
+                            </h1>
+                        </div>
+        
+                        <group>
+                            <group string="Driver Information" col="4">
+                                <field name="phone" placeholder="Phone Number"/>
+                                <field name="email" placeholder="Email Address"/>
+                                <field name="driving_license" placeholder="License No."/>
+                                <field name="address" placeholder="Full Address"/>
+                                <field name="gender"/>
+                                <field name="age"/>
+                                <field name="date_of_birth"/>
+                                <field name="country"/>
+                            </group>
+                        </group>
+        
+                        <separator string="Additional Info" colspan="4"/>
+        
+                        <div class="oe_button_box" name="button_box">
+                            <!-- Optional space for future buttons like history, logs etc. -->
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+    
+
+</odoo>

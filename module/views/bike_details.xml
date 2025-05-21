@@ -1,0 +1,145 @@
+<odoo>
+    <data>
+        <!-- kanban view -->
+        <record id="bike_details_view_kanban" model="ir.ui.view">
+            <field name="name">bike.details.kanban</field>
+            <field name="model">bike.details</field>
+            <field name="arch" type="xml">
+            
+                <kanban class="o_kanban_mobile">
+                    <field name="name"/>
+                    <field name="bike_available"/>
+                    <field name="image"/>
+                    <field name="rent_hour"/>
+                    <field name="model"/>
+                    <field name="bike_type"/>
+                    
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="o_kanban_global_click o_kanban_card shadow-lg rounded-3 bg-white position-relative mb-3 overflow-hidden">
+                                <div class="text-center p-2">
+                                    <field name="image" widget="image" class="img-fluid rounded-top" options="{'zoom': true, 'zoom_delay': 1000, 'height': 180, 'width': 500}"/>
+
+                                </div>
+
+                                <div class="p-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h5 class="mb-0 fw-bold text-truncate" style="max-width: 80px;">
+                                            <field name="name"/>
+                                        </h5>
+                                        <span class="badge bg-primary rounded-pill">
+                                            <field name="rent_hour" widget="monetary"/>
+                                            <span>/Hour</span>
+                                        </span>
+                                    </div>
+
+                                    <div class="row g-2 mt-2">
+                                        <div class="col-6">
+                                            <small class="text-muted d-block">Model</small>
+                                            <span class="fw-semibold text-truncate d-block">
+                                                <field name="model"/>
+                                            </span>
+                                        </div>
+                                        
+                                        <div class="col-6">
+                                            <small class="text-muted d-block">Type</small>
+                                            <span class="fw-semibold text-truncate d-block">
+                                                <field name="bike_type"/>
+                                            </span>
+                                        
+                                        </div>
+
+                                    </div>
+
+                                    <div class="mt-3 pt-2 border-top text-center">
+                                        <span t-if="record.bike_available.raw_value == 'unbooked'" class="text-success fw-bold">
+                                            <i class="fa fa-check-circle me-1"/>Available For Booking
+                                        </span>
+
+                                        <span t-if="record.bike_available.raw_value == 'booked'" class="text-warning fw-bold">
+                                            <i class="fa fa-clock me-1"/>Currently Booked
+                                        </span>
+
+                                        <span t-if="record.bike_available.raw_value == 'under_maintenance'" class="text-danger fw-bold">
+                                            <i class="fa fa-wrench me-1"/>Under Maintenance
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                
+                </kanban>
+            
+            </field>
+        </record>
+
+
+
+        <!-- form view -->
+
+        <record id="bike_details_view_form" model="ir.ui.view">
+            <field name="name">bike.details.form</field>
+            <field name="model">bike.details</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="Under Maintenance" type="object" name="action_open_maintenance_wizard" class="btn-primary"/>
+                        <field name="bike_available" widget="statusbar" options="{'clickable': '1'}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                           <h3><field name="name" class="oe_inline"/></h3>
+                           <div class="oe_avatar oe_left" style="margin-top: -50px;">
+                            <field name="image" widget="image" class="oe_avatar" position="center"
+                                options="{'zoom': true, 'zoom_delay': 1000}"/>
+                           </div>
+
+                        </div>
+                        <group>
+                            <group string="Basic Information">
+                                <field name="bike_type"/>
+                                <field name="model"/>
+                                <field name="book_date"/>
+                                <field name="end_date"/>
+                                <field name="country_id"/>
+                                <field name="phone"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Rental Rates">
+                                <group>
+                                    <group string="Standard Rates">
+                                        <field name="rent_hour" widget="monetary"/>
+                                        <field name="rent_day" widget="monetary"/>
+                                        <field name="rent_week" widget="monetary"/>
+                                        <field name="rent_month" widget="monetary"/>
+                                    </group>
+                                    <group string="Long Term Rates">
+                                        <field name="rent_year" widget="monetary"/>
+                                        <field name="rent_kilometer" widget="monetary"/>
+                                        <field name="rent_mile" widget="monetary"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Extra Charges">
+                                <group string="Time Based Charges">
+                                    <field name="charge_hour" widget="monetary"/>
+                                    <field name="charge_day" widget="monetary"/>
+                                    <field name="charge_week" widget="monetary"/>
+                                </group>
+                            </page>
+                            <page string="Notes">
+                                <field name="description" nolabel="1" placeholder="Additional Bike information..." class="oe_inline"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+       
+
+    </data>
+</odoo>

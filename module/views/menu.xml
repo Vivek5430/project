@@ -1,0 +1,57 @@
+<odoo>
+
+    <menuitem id="admin_menu_root" name="Car Rental" sequence="1"/>
+
+    <record id="car_details_view_action" model="ir.actions.act_window">
+        <field name="name">Cars Details</field>
+        <field name="res_model">car.details</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+    
+    <menuitem id="car_details_model_menu"  name="Car For Rent" parent="admin_menu_root" action="car_details_view_action" sequence="10"/> 
+
+    <record id="customer_details_view_action" model="ir.actions.act_window">
+        <field name="name">Customer Details</field>
+        <field name="res_model">customer.details</field>
+        <field name="view_mode">list,kanban,form</field>
+    </record>
+
+    <menuitem id="cutomer_details_model_menu" name="Customer Details" parent="admin_menu_root" action="customer_details_view_action" sequence="30"/>
+
+    <record id="driver_details_view_action" model="ir.actions.act_window">
+        <field name="name">Drivers Details</field>
+        <field name="res_model">driver.details</field>
+        <field name="view_mode">list,kanban,form</field>
+    </record>
+
+    <menuitem id="driver_details_model_menu" name="Drivers" parent="admin_menu_root" action="driver_details_view_action" sequence="40"/>    
+
+
+        <!-- <record id="bills_details_action" model="ir.actions.act_window">
+            <field name="name">Bills Details</field>
+            <field name="res_model">bills.details</field>
+            <field name="view_mode">kanban,form</field>
+        </record>
+
+    <menuitem id="bills_details_model_menu" name="Bills" parent="admin_menu_root"  action="bills_details_action" sequence="40"/> -->
+
+    
+    
+        <record id="car_maintenance_action" model="ir.actions.act_window">
+            <field name="name">Maintenance</field>
+            <field name="res_model">car.maintenance</field>
+            <field name="view_mode">list,kanban,form</field>
+        </record>
+
+    <menuitem id="car_maintenance_menu" name="Maintenance" parent="admin_menu_root"  action="car_maintenance_action" sequence="50"/>
+
+        <record id="bike_details_view_action" model="ir.actions.act_window">
+            <field name="name">Bike For Rent</field>
+            <field name="res_model">bike.details</field>
+            <field name="view_mode">kanban,list,form</field>
+        </record>
+
+    <menuitem id="bike_details_model_menu" name="Bike For Rent" parent="admin_menu_root" action="bike_details_view_action" sequence="20"/>
+
+    
+</odoo>

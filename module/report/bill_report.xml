@@ -1,0 +1,43 @@
+<odoo>
+    <record id="report_bill" model="ir.actions.report">
+        <field name="name">Bill Invoice</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">module.report_invoice_details</field>
+        <field name="print_report_name">'Invoice - %s' % (object.customer_id.name or '').replace('/', '')</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_invoice_details" t-name="module.report_invoice_details">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page">
+                        <p><strong>Vendor:</strong> <span t-esc="doc.customer_id.name"/></p>
+                        <p><strong>Bill Date:</strong> <span t-esc="doc.bill_date"/></p>
+                        <table class="table table-sm table-borderless">
+                            <thead>
+                                <tr>
+                                    <th><strong>Selected Car</strong></th>
+                                    <th><strong>Payment Terms</strong></th>
+                                    <th><strong>Payment Type</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span t-esc="doc.car_id.name"/></td>
+                                    <td><span t-esc="doc.payment_terms"/></td>
+                                    <td><span t-esc="doc.payment_type"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="text-end"><strong>Untaxed Amount:</strong> <span t-esc="doc.bill_pay"/></div>
+                        <div class="text-end"><strong>Tax 10%:</strong> <span t-esc="doc.add_tax"/></div>
+                        <div class="text-end"><strong>Total:</strong> <span t-esc="doc.total_amount"/></div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

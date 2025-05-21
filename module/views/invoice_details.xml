@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="bills_invoice_view_inherit" model="ir.ui.view">
+            <field name="name">Bills.Form.view</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+
+                <field name="invoice_date" position="before">
+                    <field name="bike_id"/>
+                </field>
+
+                 <!-- <field name="bike_id" position="before">
+                    <field name="car_id"/>
+                </field> -->
+
+                <field name="partner_id" position="before">
+                    <field name="customer_id"/>
+                </field>
+
+                <field name="invoice_date" position="after">
+                    <field name="bill_date"/>
+                </field>
+
+                <field name="date" position="before">
+                    <field name="payment_terms"/>
+                </field>
+
+                <field name="ref" position="after">
+                    <field name="street"/>
+                </field>
+
+                <field name="street" position="after">
+                    <field name="street2"/>
+                </field>
+
+                <field name="street2" position="after">
+                    <field name="city"/>
+                </field>
+
+                <field name="payment_terms" position="after">
+                    <field name="payment_type"/>
+                </field>
+
+                <field name="amount_residual" position="before">
+                    <field name="bill_pay"/>
+                </field>
+
+
+
+
+
+
+                <field name="partner_id" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+
+                <field name="bill_date" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+
+                <field name="invoice_date" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+
+                <field name="invoice_payment_term_id" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+
+                <field name="product_id" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+
+                <field name="partner_bank_id" position="attributes">    
+                    <attribute name="invisible">True</attribute>            
+                </field>
+            </field>
+        </record>
+    
+
+        <record id="bills_invoice_view_action" model="ir.actions.act_window">
+            <field name="name">Bills</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">list,kanban,activity,form</field>
+        </record>
+
+        <menuitem id="bills_invoice_model_menu" name="Bills" parent="admin_menu_root"  action="bills_invoice_view_action" sequence="40"/> 
+
+    </data>
+</odoo>
