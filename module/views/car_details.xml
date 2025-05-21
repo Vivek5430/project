@@ -1,0 +1,164 @@
+<odoo>
+    <record id="car_details_view_kanban" model="ir.ui.view">
+        <field name="name">car_details.views.kanban</field>
+        <field name="model">car.details</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="status"/>
+                <field name="image"/>
+                <field name="rent_hour"/>
+                <field name="model"/>
+                <field name="car_type"/>
+                <field name="fuel_type"/>
+                <field name="transmission"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="o_kanban_global_click o_kanban_card shadow-lg rounded-3 bg-white position-relative mb-3 overflow-hidden">
+                            <!-- Car Image -->
+                            <div class="text-center p-2">
+                                <field name="image" widget="image"
+                                       class="img-fluid rounded-top"
+                                   options="{'zoom': true, 'zoom_delay': 1000, 'height': 180, 'width': 500}"/>
+                            </div>
+
+                            <div class="p-3">
+                                <!-- Car Name and Price -->
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h5 class="mb-0 fw-bold text-truncate" style="max-width: 80px;">
+                                        <field name="name"/>
+                                    </h5>
+                                    <span class="badge bg-primary rounded-pill">
+                                        <field name="rent_hour" widget="monetary"/>
+                                        <span>/hour</span>
+                                    </span>
+                                </div>
+
+                                <!-- Car Specifications -->
+                                <div class="row g-2 mt-2">
+                                    <div class="col-6">
+                                        <small class="text-muted d-block">Model</small>
+                                        <span class="fw-semibold text-truncate d-block">
+                                            <field name="model"/>
+                                        </span>
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted d-block">Type</small>
+                                        <span class="badge bg-light text-dark rounded-pill">
+                                            <field name="car_type"/>
+                                        </span>
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted d-block">Fuel</small>
+                                        <span class="badge bg-info text-white rounded-pill">
+                                            <field name="fuel_type"/>
+                                        </span>
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted d-block">Transmission</small>
+                                        <span class="badge bg-secondary rounded-pill">
+                                            <field name="transmission"/>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Status Indicator -->
+                                <div class="mt-3 pt-2 border-top text-center">
+                                    <span t-if="record.status.raw_value == 'unbooked'" class="text-success fw-bold">
+                                        <i class="fa fa-check-circle me-1"/> Available for Booking
+                                    </span>
+                                    <span t-if="record.status.raw_value == 'booked'" class="text-warning fw-bold">
+                                        <i class="fa fa-clock me-1"/> Currently Booked
+                                    </span>
+                                    <span t-if="record.status.raw_value == 'under_maintenance'" class="text-danger fw-bold">
+                                        <i class="fa fa-wrench me-1"/> Under Maintenance
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="car_details_view_form" model="ir.ui.view">
+        <field name="name">car.details.form</field>
+        <field name="model">car.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button string="Under Maintenance" type="object" name="action_open_maintenance_wizard" class="btn-primary"/>
+                    <field name="status" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h3><field name="name" class="oe_inline"/></h3>
+                        <div class="oe_avatar oe_left" style="margin-top: -50px;">
+                            <field name="image" widget="image" class="oe_avatar" position="center"
+                                   options="{'zoom': true, 'zoom_delay': 1000}"/>
+                        </div>
+                    </div>
+                    <group>
+                        <group string="Basic Information">
+                            <field name="car_type"/>
+                            <field name="model_year"/>
+                            <field name="color" widget="color_picker"/>
+                            <field name="fuel_type"/>
+                        </group>
+                        <group string="Specifications">
+                            <field name="transmission" widget="selection_badge"/>
+                            <field name="seats"/>
+                            <field name="doors"/>
+                            <field name="power_unit"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Rental Rates">
+                            <group>
+                                <group string="Standard Rates">
+                                    <field name="rent_hour" widget="monetary"/>
+                                    <field name="rent_day" widget="monetary"/>
+                                    <field name="rent_week" widget="monetary"/>
+                                    <field name="rent_month" widget="monetary"/>
+                                </group>
+                                <group string="Long Term Rates">
+                                    <field name="rent_year" widget="monetary"/>
+                                    <field name="rent_kilometer" widget="monetary"/>
+                                    <field name="rent_mile" widget="monetary"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Extra Charges">
+                            <group>
+                                <group string="Time-Based Charges">
+                                    <field name="charge_hour" widget="monetary"/>
+                                    <field name="charge_day" widget="monetary"/>
+                                    <field name="charge_week" widget="monetary"/>
+                                </group>
+                                <group string="Other Charges">
+                                    <field name="charge_month" widget="monetary"/>
+                                    <field name="charge_year" widget="monetary"/>
+                                    <field name="charge_kilometer" widget="monetary"/>
+                                    <field name="charge_mile" widget="monetary"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Dates">
+                            <group>
+                                <field name="order_date" widget="date"/>
+                                <field name="registration_date" widget="date"/>
+                                <field name="cancellation_date" widget="date"/>
+                                <field name="chassis_number" placeholder="Enter chassis number"/>
+                            </group>
+                        </page>
+                        <page string="Notes">
+                            <field name="description" nolabel="1" placeholder="Additional vehicle information..." class="oe_inline"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

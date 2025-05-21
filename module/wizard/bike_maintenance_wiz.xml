@@ -1,0 +1,32 @@
+<odoo>
+    <record id="view_bike_maintenance_wiz_form" model="ir.ui.view">
+        <field name="name">bike.maintenance.wizard.form</field>
+        <field name="model">bike.maintenancewiz</field>
+        <field name="arch" type="xml">
+        
+            <form string="bike_id">
+                <group>
+                    <field name="bike_id"/>
+                    <field name="maintenance_type"/>
+                    <field name="maintenance_date"/>
+                    <field name="odometer_reading"/>
+                    <field name="cost"/>
+                </group>
+
+                <footer>
+                    <button string="Add To Maintenance" type="object" name="bike_add_to_maintenance" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="action_bike_maintenance_wizard" model="ir.actions.act_window">
+        <field name="name">Create Maintenance</field>
+        <field name="res_model">bike.maintenancewiz</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
